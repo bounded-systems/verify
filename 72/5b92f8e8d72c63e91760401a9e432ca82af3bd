@@ -1,0 +1,29 @@
+README.md
+  s_98e316d0b3248a::t_4c8ae88926ff99 1-65
+.gitignore
+  s_98e316d0b3248a::t_08acd71960c3fb 1-2
+.github/workflows/publish.yml
+  s_98e316d0b3248a::t_974d660b8f0b72 1-32
+deno.json
+  s_98e316d0b3248a::t_340f147443b045 1-13
+LICENSE
+  s_98e316d0b3248a::t_20b74ec6dc1364 1-21
+verify.mjs
+  s_98e316d0b3248a::t_954885025d9796 1-107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "725b92f8e8d72c63e91760401a9e432ca82af3bd",
+  "prompts": {},
+  "sessions": {
+    "s_98e316d0b3248a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8db980ee-eb6b-4866-832b-f795cef7f33c",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
