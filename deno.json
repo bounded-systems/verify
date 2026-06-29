@@ -1,6 +1,6 @@
 {
   "name": "@bounded-systems/verify",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "exports": "./verify.mjs",
   "license": "MIT",
   "nodeModulesDir": "auto",
