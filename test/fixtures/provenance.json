@@ -1,0 +1,31 @@
+{
+  "scope": "entire-site",
+  "fileCount": 42,
+  "builtAt": "2026-06-29T00:10:23.796Z",
+  "builder": {
+    "repository": "bounded-systems/site",
+    "commit": "c2da71851b4eeb52ed20d373340633195f0b4096",
+    "ref": "refs/heads/main",
+    "runId": "28340712756",
+    "workflowRef": "bounded-systems/site/.github/workflows/deploy.yml@refs/heads/main",
+    "issuer": "https://token.actions.githubusercontent.com"
+  },
+  "siteManifest": {
+    "file": "site.sha256",
+    "sha256": "75386a73066f8cc0c5d022ce8d739dcc54ea76cde5ad8680a8482a90bb5be895",
+    "bundle": "site.sha256.sigstore.json",
+    "transparencyLog": "rekor.sigstore.dev",
+    "rekorLogIndex": "2001633252",
+    "rekorEntry": "https://search.sigstore.dev/?logIndex=2001633252",
+    "verify": "cosign verify-blob \\\n  --bundle site.sha256.sigstore.json \\\n  --certificate-identity-regexp '^https://github.com/bounded-systems/site/' \\\n  --certificate-oidc-issuer https://token.actions.githubusercontent.com \\\n  site.sha256\n# then check the live bytes against the signed manifest:\nsha256sum -c site.sha256"
+  },
+  "intotoStatement": null,
+  "ociArtifact": {
+    "registry": "ghcr.io",
+    "ref": "ghcr.io/bounded-systems/bounded-tools-site:c2da718",
+    "digest": null,
+    "pull": "oras pull ghcr.io/bounded-systems/bounded-tools-site:c2da718",
+    "verify": "cosign verify ghcr.io/bounded-systems/bounded-tools-site:c2da718 \\\n  --certificate-identity-regexp '^https://github.com/bounded-systems/site/' \\\n  --certificate-oidc-issuer https://token.actions.githubusercontent.com"
+  },
+  "caveat": "Provenance proves who built this site and that it is intact — not that the build was safe or authorized. Identity and integrity, not legitimacy. https://bounded.tools/blog/provenance-is-not-legitimacy"
+}

@@ -28,6 +28,56 @@ Inputs are read from the target: `provenance.json` (the builder identity — not
 is hardcoded), the whole-site `site.sha256` manifest, and the `.sigstore.json`
 bundle. Exit code `0` on success, `1` on any verification failure.
 
+## Library API
+
+The same logic is exported as side-effect-free functions — importing the module
+runs **nothing** (the CLI is guarded behind `import.meta.main`):
+
+```js
+import { verifyManifestBundle, verifySite } from "jsr:@bounded-systems/verify";
+```
+
+### `verifyManifestBundle({ bundle, manifest, identity?, issuer?, verifyImpl? })`
+
+The core primitive: cryptographically verifies a Sigstore **bundle** over a signed
+manifest, in-process and offline (the same `sigstore.verify(...)` call the CLI makes).
+
+| field | type | notes |
+| --- | --- | --- |
+| `bundle` | `object \| string` | parsed Sigstore bundle, or its JSON text |
+| `manifest` | `Buffer \| Uint8Array \| string` | the signed artifact bytes (e.g. `site.sha256`) |
+| `identity` | `RegExp \| string` (optional) | the certificate SAN must match this |
+| `issuer` | `string` (optional) | OIDC issuer to enforce (default: GitHub Actions) |
+| `verifyImpl` | `Function` (optional) | injectable verifier; defaults to sigstore's `verify` — leave unset in production |
+
+Resolves to `{ verified: true, identity, issuer }`. Throws a typed `VerifyError`
+(with `.code` ∈ `MISSING_BUNDLE` · `MISSING_MANIFEST` · `BUNDLE_VERIFICATION_FAILED`
+· `IDENTITY_MISMATCH`) on any failure.
+
+```js
+const { verified, identity } = await verifyManifestBundle({
+  bundle,                                            // from site.sha256.sigstore.json
+  manifest,                                          // bytes of site.sha256
+  identity: /^https:\/\/github.com\/bounded-systems\/site\//,
+});
+```
+
+### `verifySite({ target, onLog?, verifyImpl? })`
+
+The full out-of-band flow the CLI runs: loads `provenance.json`, `site.sha256` and
+the bundle from a deployed URL or local `dist/`, verifies the bundle, then re-hashes
+every served file (tolerating known CDN edge transforms). Progress is delivered to
+the optional `onLog(line)` callback — nothing is printed and the process is never
+exited. Returns a structured result:
+
+```js
+const r = await verifySite({ target: "https://bounded.tools" });
+// { verified, base, builder, commit, rekorLogIndex, builtAt, identity,
+//   files: { total, mismatches, edged, edgeNames }, failures }
+```
+
+Also exported: `VerifyError`, `DEFAULT_ISSUER`, `stripKnownEdge`, `KNOWN_EDGE_INJECTIONS`.
+
 ## Provenance
 
 This repository — [`bounded-systems/verify`](https://github.com/bounded-systems/verify) —
